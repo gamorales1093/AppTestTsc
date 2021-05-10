@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppTestTsc.Views.CountriesPage"
+             xmlns:vm="clr-namespace:AppTestTsc.ViewModels"
+             xmlns:ListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:controls="clr-namespace:AppTestTsc.Controls"
+             xmlns:core="clr-namespace:Syncfusion.XForms.Core;assembly=Syncfusion.Core.XForms" 
+             xmlns:popuplayout="clr-namespace:Syncfusion.XForms.PopupLayout;assembly=Syncfusion.SfPopupLayout.XForms" 
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             x:Name="MyAdressPage"
+             Title="Países"
+             BackgroundColor="{DynamicResource GrayShadowBackgroundColor}">
+
+
+
+    <ContentPage.Content>
+        <Grid
+            ColumnSpacing="0"
+            RowDefinitions="*, Auto"
+            RowSpacing="0">
+
+            <!--  ListView displaying address  -->
+            <ListView:SfListView
+                x:Name="slvCountries"
+                Padding="8"
+                AllowSwiping="True"
+                AutoFitMode="Height"
+                BackgroundColor="Transparent"
+                IsScrollBarVisible="False"
+                ItemsSource="{Binding CountriesDetailAux}"
+                SelectionBackgroundColor="Transparent"
+                SelectionGesture="Tap"
+                SelectionMode="Single">
+                <ListView:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:CustomShadowFrame
+                            Margin="8"
+                            Padding="16,16,8,16"
+                            BackgroundColor="#d5edff"
+                            BorderWidth="0"
+                            CornerRadius="4"
+                            HasShadow="True"
+                            HorizontalOptions="CenterAndExpand"
+                            Radius="4"
+                            WidthRequest="343">
+                            <Grid
+                                ColumnDefinitions="Auto, *, Auto, Auto"
+                                ColumnSpacing="8"
+                                RowDefinitions="Auto, *, Auto"
+                                RowSpacing="8">
+
+                                <!--  Name and alpha2 of the countrie  -->
+                                <Label
+                                    Grid.ColumnSpan="2"
+                                    HorizontalOptions="Start"
+                                    LineBreakMode="NoWrap"
+                                    LineHeight="{OnPlatform Default=-1,
+                                                            Android=1.5}"
+                                    VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span
+                                                FontFamily="Montserrat-SemiBold"
+                                                FontSize="16"
+                                                Text="{Binding Name}"
+                                                TextColor="{DynamicResource Gray-900}" />
+                                            <Span Text="  " />
+                                            <Span
+                                                FontFamily="Montserrat-SemiBold"
+                                                FontSize="12"
+                                                Text="{Binding Alpha2}"
+                                                TextColor="{DynamicResource Gray-800}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <!--  Edit button command  -->
+                                <buttons:SfButton
+                                    x:Name="editButton"
+                                    Grid.Column="2"
+                                    Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference slvCountries}}"
+                                    CommandParameter="{x:Reference Id}"
+                                    CornerRadius="16"
+                                    HeightRequest="32"
+                                    HorizontalOptions="EndAndExpand"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    TextColor="#3c579a"
+                                    VerticalOptions="StartAndExpand"
+                                    WidthRequest="32">
+                                    <buttons:SfButton.Content>
+                                        <Label
+                                            FontFamily="FontIcons"
+                                            FontSize="18"
+                                            HorizontalOptions="Center"
+                                            Text="{StaticResource Edit}"
+                                            TextColor="#3c579a"
+                                            VerticalOptions="Center" />
+                                    </buttons:SfButton.Content>
+                                </buttons:SfButton>
+
+                                <!--  Delete button command  -->
+                                <buttons:SfButton
+                                    x:Name="DeleteButton"
+                                    Grid.Column="3"
+                                    Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference slvCountries}}"
+                                    CommandParameter="{x:Reference Id}"
+                                    CornerRadius="16"
+                                    HeightRequest="32"
+                                    HorizontalOptions="EndAndExpand"
+                                    Style="{StaticResource IconButtonStyle}"
+                                    TextColor="#3c579a"
+                                    VerticalOptions="StartAndExpand"
+                                    WidthRequest="32">
+                                    <buttons:SfButton.Content>
+                                        <Label
+                                            FontFamily="FontIcons"
+                                            FontSize="18"
+                                            HorizontalOptions="Center"
+                                            Text="{StaticResource Delete}"
+                                            TextColor="#3c579a"
+                                            VerticalOptions="Center" />
+                                    </buttons:SfButton.Content>
+                                </buttons:SfButton>
+                                <Label  x:Name="Id" Text="{Binding Id}" IsVisible="False"></Label>
+
+                                <!--  Aplha 3  -->
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    FontFamily="FontIcons"
+                                    FontSize="18"
+                                    LineHeight="{OnPlatform Default=-1,
+                                                            Android=1.5}"
+                                    Text="{StaticResource Help}"
+                                    TextColor="#3c579a"
+                                    VerticalOptions="Start" />
+
+                                <!--  Aplha 3 -->
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalOptions="StartAndExpand"
+                                    HorizontalTextAlignment="Start"
+                                    LineBreakMode="WordWrap"
+                                    Style="{StaticResource DescriptionLabelStyle}"
+                                    Text="{Binding Alpha3}"
+                                    VerticalOptions="Start" />
+
+                                <!--  code  -->
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    FontFamily="FontIcons"
+                                    FontSize="18"
+                                    LineHeight="{OnPlatform Default=-1,
+                                                            Android=1.5}"
+                                    Text="{StaticResource Bookmark}"
+                                    TextColor="#3c579a" />
+
+                                <!--  code  -->
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalOptions="Start"
+                                    Style="{StaticResource DescriptionLabelStyle}"
+                                    VerticalOptions="Start">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Code: " />
+                                            <Span Text="{Binding Code}" TextColor="{DynamicResource Gray-900}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <!--  code  -->
+                                <Label
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    FontFamily="FontIcons"
+                                    FontSize="18"
+                                    LineHeight="{OnPlatform Default=-1,
+                                                            Android=1.5}"
+                                    Text="{StaticResource Search}"
+                                    TextColor="#3c579a" />
+
+                                <!--  code  -->
+                                <Label
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalOptions="Start"
+                                    Style="{StaticResource DescriptionLabelStyle}"
+                                    VerticalOptions="Start">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Iso_3166_2: " />
+                                            <Span Text="{Binding iso_3166_2}" TextColor="{DynamicResource Gray-900}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <!--  is_independent  -->
+                                <Label
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    FontFamily="FontIcons"
+                                    FontSize="18"
+                                    LineHeight="{OnPlatform Default=-1,
+                                                            Android=1.5}"
+                                    Text="{StaticResource Viewed}"
+                                    TextColor="#3c579a" 
+                                    />
+
+                                <!--  is_independent  -->
+                                <CheckBox
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalOptions="Start"
+                                    IsEnabled="False"
+                                    Color="#3c579a"
+                                    VerticalOptions="Start"
+                                    IsChecked="{Binding Is_independent}">
+                                    
+
+                                </CheckBox>
+
+                                <!--  is_independent  -->
+                                <buttons:SfButton
+                                    x:Name="btnViewDetails"
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalOptions="Start"                                 
+                                    VerticalOptions="Start"
+                                    Text="Ver Detalles"
+                                    CornerRadius="3"
+                                    BackgroundColor="#3c579a"
+                                    TextColor="White"
+                                    Command="{Binding Path=BindingContext.ViewCommand, Source={x:Reference slvCountries}}"
+                                    CommandParameter="{x:Reference Id}">
+
+
+                                </buttons:SfButton>
+
+
+
+                            </Grid>
+                        </controls:CustomShadowFrame>
+                    </DataTemplate>
+                </ListView:SfListView.ItemTemplate>
+                <ListView:SfListView.LayoutManager>
+                    <ListView:GridLayout SpanCount="{core:OnPlatformOrientationIntValue Desktop=2, PhonePortrait=1, PhoneLandscape=2, TabletPortrait=2, TabletLandscape=3}" />
+                </ListView:SfListView.LayoutManager>
+            </ListView:SfListView>
+
+            <!--  Add countrie button command  -->
+            <buttons:SfButton
+                x:Name="addCountrieButton"
+                Grid.Row="1"
+                Margin="0,0,20,20"
+                BorderColor="White"
+                BorderWidth="1"
+                Command="{Binding Path=BindingContext.AddCountrieCommand, Source={x:Reference slvCountries}}"
+                CommandParameter="{x:Reference addCountrieButton}"
+                CornerRadius="30"
+                FontFamily="FontIcons"
+                FontSize="20"
+                HeightRequest="56"
+                HorizontalOptions="End"
+                Style="{StaticResource GradientButtonStyleFloat}"
+                Text="{StaticResource Add}"
+                VerticalOptions="End"
+                WidthRequest="56" />
+
+
+
+            <popuplayout:SfPopupLayout x:Name="pyCountrie" Grid.Row="1" IsOpen="{Binding ShowPopUp}" >
+                <popuplayout:SfPopupLayout.PopupView>
+
+                    <popuplayout:PopupView IsVisible="{Binding ShowPopUp}" ShowCloseButton="True" ShowFooter="False" HeaderTitle="{Binding TitlePopUp}"  ShowHeader="True" HeightRequest="380"  HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="White" AnimationMode="Zoom">
+                        <popuplayout:PopupView.PopupStyle>
+                            <popuplayout:PopupStyle HeaderBackgroundColor="White"
+                                    
+                                    HeaderFontFamily="Montserrat-Bold"
+                                    HeaderFontSize="16"
+                                                    
+                                    HeaderTextAlignment="Center"
+                                    />
+                        </popuplayout:PopupView.PopupStyle>
+                        <popuplayout:PopupView.ContentTemplate>
+                            <DataTemplate>
+                                <ScrollView>
+
+                                <StackLayout Orientation="Vertical">
+                                    <border:SfBorder
+                       
+                        BackgroundColor="{DynamicResource Gray-White}"
+                            BorderColor="#F0F0F0"
+                                    
+                            Style="{StaticResource SfBorderStyle}">
+                                        <controls:BorderlessEntry
+                            x:Name="txtName"
+                            Placeholder="Name"
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding CurrentCountrie.Name}"
+                            TextColor="{DynamicResource Gray-900}"
+                            />
+                                    </border:SfBorder>
+
+                                    <border:SfBorder
+                       
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="#F0F0F0"
+                        Style="{StaticResource SfBorderStyle}">
+                                        <controls:BorderlessEntry 
+                            x:Name="txtAlpha2"
+                            Placeholder="Alpha2"   
+                            MaxLength="2"
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding CurrentCountrie.Alpha2}"
+                            TextColor="{DynamicResource Gray-900}"
+                            />
+                                    </border:SfBorder>
+
+                                    <border:SfBorder
+                       
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="#F0F0F0"
+                        Style="{StaticResource SfBorderStyle}">
+                                        <controls:BorderlessEntry 
+                            x:Name="txtAlpha3"
+                            Placeholder="Alpha3"
+                             MaxLength="3"            
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding CurrentCountrie.Alpha3}"
+                            TextColor="{DynamicResource Gray-900}"
+                            />
+                                    </border:SfBorder>
+
+                                    <border:SfBorder
+                       
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="#F0F0F0"
+                        Style="{StaticResource SfBorderStyle}">
+                                        <controls:BorderlessEntry 
+                            x:Name="txtCode"
+                            Placeholder="Code"
+                                                            
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding CurrentCountrie.Code}"
+                            TextColor="{DynamicResource Gray-900}"
+                            />
+                                    </border:SfBorder>
+
+                                    <border:SfBorder
+                       
+                        BackgroundColor="{DynamicResource Gray-White}"
+                        BorderColor="#F0F0F0"
+                        Style="{StaticResource SfBorderStyle}">
+                                        <controls:BorderlessEntry 
+                            x:Name="txtIso_3166_2"
+                            Placeholder="Iso_3166_2"
+                                                            
+                            PlaceholderColor="{DynamicResource Gray-700}"
+                            Style="{StaticResource EntryStyle}"
+                            Text="{Binding CurrentCountrie.Iso_3166_2}"
+                            TextColor="{DynamicResource Gray-900}"
+                            />
+                                    </border:SfBorder>
+
+
+
+
+                                        <CheckBox 
+                            x:Name="chkIs_independent"
+                            Color="#3c579a"
+                             
+                             IsChecked="{Binding CurrentCountrie.Is_independent}"  >
+
+                                        </CheckBox>
+                           
+                           
+
+
+                                    <!--  Login button  -->
+                        <buttons:SfButton x:Name="btnSaveCountrie"
+                        
+                        Margin="0,16"
+                        FontFamily="Montserrat-Regular"
+                        Style="{StaticResource SfButtonStyle}"
+                        TextColor="White"
+                        VerticalOptions="End"
+                        Command="{Binding Path=BindingContext.SaveCountrieCommand, Source={x:Reference slvCountries}}"
+                        CommandParameter="{x:Reference btnSaveCountrie}"
+                        CornerRadius="5"
+                        BackgroundColor="#3c579a"                 
+                        Text="Guardar" />
+
+                                    <!--<numeric:SfNumericUpDown x:Name="Cantidad"
+                               
+                                Value="1"
+                               
+                               />-->
+
+
+                                </StackLayout>
+
+                                </ScrollView>
+                            </DataTemplate>
+                        </popuplayout:PopupView.ContentTemplate>
+                    </popuplayout:PopupView>
+                </popuplayout:SfPopupLayout.PopupView>
+                <popuplayout:SfPopupLayout.Content>
+                    <StackLayout>
+
+                    </StackLayout>
+                </popuplayout:SfPopupLayout.Content>
+            </popuplayout:SfPopupLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
